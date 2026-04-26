@@ -1,0 +1,41 @@
+# --- Data files (too large for GitHub; reproduce locally) ---
+data.csv
+metadata.csv
+data_preprocessed.csv
+sentence_index.csv
+sentence_embeddings.npy
+doc_embeddings.npy
+index_config.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+.env
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- Editor / OS ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Model caches (HuggingFace downloads) ---
+.cache/
+~/.cache/huggingface/
