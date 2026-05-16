@@ -1,22 +1,3 @@
-"""
-COVID-19 Claim Check — Claim Verifier
-=======================================
-Given a user claim, retrieves the most relevant evidence sentences from the
-abstract index and classifies each one as SUPPORTS / REFUTES / NEUTRAL using
-a pretrained NLI model fine-tuned on FEVER (fact verification).
-
-Final verdict logic:
-    - TRUE              : at least MIN_EVIDENCE supporting sentences AND
-                          supports >= refutes + MARGIN
-    - FALSE             : at least MIN_EVIDENCE refuting sentences AND
-                          refutes  >= supports + MARGIN
-    - NOT ENOUGH INFO   : otherwise
-
-Usage:
-    python verify_claim.py "Hydroxychloroquine is an effective treatment for COVID-19"
-    # or run with no args for interactive mode
-"""
-
 import os
 import sys
 import json
@@ -124,8 +105,8 @@ def verify(claim: str, top_k: int = TOP_K) -> dict:
 
     def _label(row):
         p = {"SUPPORTS": row["p_support"],
-             "REFUTES":  row["p_refute"],
-             "NEUTRAL":  row["p_neutral"]}
+            "REFUTES":  row["p_refute"],
+            "NEUTRAL":  row["p_neutral"]}
         top = max(p, key=p.get)
         if p[top] < SUPPORT_THRESHOLD:
             return "NEUTRAL"
@@ -169,7 +150,7 @@ def print_result(result: dict, max_per_group: int = 4):
     print(f"CLAIM  : {result['claim']}")
     print(f"VERDICT: {result['verdict']}")
     print(f"        (supporting: {result['n_supporting']}, "
-          f"refuting: {result['n_refuting']})")
+        f"refuting: {result['n_refuting']})")
     print("=" * 72)
 
     ev = result["evidence"]

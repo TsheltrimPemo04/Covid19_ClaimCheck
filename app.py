@@ -1,13 +1,3 @@
-"""
-COVID-19 Claim Check — Web UI
-==============================
-Streamlit frontend for the claim verification pipeline.
-
-Run:
-    streamlit run app.py
-
-Then open the URL it prints (usually http://localhost:8501).
-"""
 import os
 import json
 import time

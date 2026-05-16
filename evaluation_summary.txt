@@ -1,0 +1,31 @@
+================================================================
+COVID-19 Claim Check — Evaluation Summary
+================================================================
+Benchmark        : COVID-Fact (Saakyan et al., ACL 2021)
+Claims evaluated : 300
+  SUPPORTED      : 150
+  REFUTED        : 150
+top_k            : 15
+
+Headline metrics
+----------------------------------------------------------------
+  Coverage              :  41.3%   (committed on 124/300; abstained on 176)
+  Overall accuracy      :  23.7%   (abstentions counted as wrong)
+  Selective accuracy    :  57.3%   (accuracy when system commits)
+  Macro F1              :  50.1%   (committed predictions only)
+
+Per-class metrics (committed predictions)
+----------------------------------------------------------------
+Class          Precision    Recall        F1    TP    FP    FN
+SUPPORTED          46.2%     23.5%     31.2%    12    14    39
+REFUTED            60.2%     80.8%     69.0%    59    39    14
+
+Confusion matrix (rows = gold, cols = predicted)
+----------------------------------------------------------------
+               SUPPORTED     REFUTED     ABSTAIN
+SUPPORTED             12          39          99
+REFUTED               14          59          77
+ABSTAIN                0           0           0
+
+Mean latency per claim : 2.34 s
+Total elapsed          : 11.7 min

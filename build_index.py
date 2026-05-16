@@ -1,23 +1,3 @@
-"""
-COVID-19 Claim Check — Evidence Index Builder
-==============================================
-Embeds all preprocessed research abstracts at the SENTENCE level so that the
-claim verifier can retrieve fine-grained evidence (individual claim-bearing
-sentences), not just whole abstracts.
-
-Outputs (saved alongside data_preprocessed.csv):
-    sentence_index.csv     — one row per sentence: doc_id, sent_id, sentence,
-                             title, journal, doi, publish_time, authors
-    sentence_embeddings.npy — float32 matrix of shape (n_sentences, dim),
-                             L2-normalised so dot product == cosine similarity
-    doc_embeddings.npy     — optional: one mean-pooled vector per abstract for
-                             fast two-stage retrieval
-    index_config.json      — model name + embedding dim
-
-Run once before using verify_claim.py:
-    python build_index.py
-"""
-
 import os
 import re
 import json
@@ -60,7 +40,7 @@ def split_sentences(text: str):
     # Protect common abbreviations that would otherwise trigger a split
     protected = text
     for abbr in ["e.g.", "i.e.", "et al.", "vs.", "cf.", "Fig.", "Eq.",
-                 "No.", "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "St.", "Jr."]:
+                "No.", "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "St.", "Jr."]:
         protected = protected.replace(abbr, abbr.replace(".", "<DOT>"))
     parts = _SENT_SPLIT.split(protected)
     parts = [p.replace("<DOT>", ".").strip() for p in parts if p.strip()]

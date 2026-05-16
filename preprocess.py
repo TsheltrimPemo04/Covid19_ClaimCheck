@@ -1,14 +1,3 @@
-"""
-COVID-19 Claim Check — Dataset Preprocessing
-=============================================
-Loads the CORD-19 style research-abstract CSV, cleans the data, filters it to
-COVID-related papers, and produces a preprocessed CSV ready for claim-checking
-(retrieval + evidence matching).
-
-Run:
-    python preprocess.py
-"""
-
 import os
 import re
 import string
@@ -91,8 +80,6 @@ COVID_PATTERN = re.compile(
 # Text cleaning
 # ---------------------------------------------------------------
 def clean_text(text: str) -> str:
-    """Light cleaning — preserves sentence structure and negations.
-    Used for retrieval / embedding input."""
     if not isinstance(text, str):
         return ""
     text = text.lower()
@@ -108,7 +95,6 @@ def clean_text(text: str) -> str:
 STOP_WORDS = _STOPWORDS - {
     "no", "not", "nor", "against", "without", "never", "none",
 }
-
 
 def tokenize_and_lemmatize(text: str):
     """Heavier normalization — for TF-IDF / BM25 baselines."""
@@ -133,8 +119,8 @@ def main():
     chunks = []
     total = 0
     for chunk in pd.read_csv(INPUT_CSV, usecols=available, dtype=str,
-                             low_memory=False, chunksize=100_000,
-                             on_bad_lines="skip"):
+                            low_memory=False, chunksize=100_000,
+                            on_bad_lines="skip"):
         total += len(chunk)
         # Pre-filter inside the chunk to keep memory low
         chunk = chunk.dropna(subset=["abstract"])
