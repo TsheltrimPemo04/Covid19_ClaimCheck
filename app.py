@@ -1,7 +1,18 @@
 import os
 import json
 import time
+import subprocess
 import streamlit as st
+
+# ---------------------------------------------------------------
+# Auto-build retrieval index if missing
+# ---------------------------------------------------------------
+
+if not os.path.exists("sentence_embeddings.npy"):
+
+    with st.spinner("Building retrieval index... This may take several minutes on first launch."):
+
+        subprocess.run(["python", "build_index.py"])
 
 # ---------------------------------------------------------------
 # Page config
@@ -137,11 +148,11 @@ go = st.button("🔍 Check claim", type="primary", use_container_width=True)
 # ---------------------------------------------------------------
 def verdict_card(verdict: str, n_sup: int, n_ref: int):
     cls = {"TRUE": "verdict-true", "FALSE": "verdict-false",
-           "NOT ENOUGH INFO": "verdict-nei"}[verdict]
+            "NOT ENOUGH INFO": "verdict-nei"}[verdict]
     icon = {"TRUE": "✅", "FALSE": "❌", "NOT ENOUGH INFO": "❓"}[verdict]
     label = {"TRUE": "Likely TRUE",
-             "FALSE": "Likely FALSE",
-             "NOT ENOUGH INFO": "Not enough evidence"}[verdict]
+            "FALSE": "Likely FALSE",
+            "NOT ENOUGH INFO": "Not enough evidence"}[verdict]
     st.markdown(f"""
         <div class="verdict-card {cls}">
             <h2>{icon} {label}</h2>
