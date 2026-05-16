@@ -1,0 +1,12 @@
+[server]
+# Streamlit Cloud sets the port automatically; just disable file watching
+# (transformers' lazy imports flood the log otherwise).
+fileWatcherType = "none"
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#dc2626"

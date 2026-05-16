@@ -1,11 +1,17 @@
-# --- Data files (too large for GitHub; reproduce locally) ---
+# --- Source data (too large for GitHub; reproduce locally) ---
 data.csv
 metadata.csv
 data_preprocessed.csv
-sentence_index.csv
-sentence_embeddings.npy
-doc_embeddings.npy
-index_config.json
+
+# --- Evaluation data ---
+covidfact.jsonl
+evaluation_results.csv
+evaluation_summary.txt
+
+# NOTE: the prebuilt embedding index files (sentence_index.csv,
+# sentence_embeddings.npy, doc_embeddings.npy, index_config.json) are
+# INTENTIONALLY tracked so Streamlit Cloud can load them at startup.
+# They total ~100 MB and fit within GitHub's per-file limits.
 
 # --- Python ---
 __pycache__/

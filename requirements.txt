@@ -1,15 +1,14 @@
 # COVID-19 Claim Check — dependencies
 # Install with:  pip install -r requirements.txt
 
-# Data + preprocessing
-pandas>=2.0
-numpy>=1.24
-nltk>=3.8
-
 # Models — embedding + NLI
 sentence-transformers>=2.2
 transformers>=4.30
 torch>=2.0
+
+# Data
+pandas>=2.0
+numpy>=1.24
 
 # Web frontend
 streamlit>=1.30
