@@ -198,8 +198,55 @@ def render_evidence(items, group_class):
         """, unsafe_allow_html=True)
 
 
+# ---------------------------------------------------------------
+# Input validation — only accept COVID-related declarative claims
+# ---------------------------------------------------------------
+QUESTION_WORDS = {
+    "what", "why", "how", "when", "where", "who", "whom", "whose",
+    "which", "is", "are", "was", "were", "do", "does", "did", "can",
+    "could", "should", "would", "will", "has", "have", "had", "am",
+    "may", "might", "shall",
+}
+
+COVID_KEYWORDS = [
+    "covid", "covid-19", "covid19", "coronavirus", "corona virus",
+    "sars-cov-2", "sars cov 2", "sarscov2", "sars-cov2", "ncov",
+    "pandemic", "epidemic", "outbreak", "vaccine", "vaccinated",
+    "vaccination", "vaccinations", "pfizer", "moderna", "astrazeneca",
+    "biontech", "mrna", "hydroxychloroquine", "remdesivir", "ivermectin",
+    "paxlovid", "lockdown", "quarantine", "social distancing",
+    "face mask", "face masks", "omicron", "delta variant", "long covid",
+    "ventilator", "respiratory syndrome",
+]
+
+
+def validate_claim(text: str):
+    """Return a warning message if the input should be rejected, else None."""
+    t = text.strip()
+    low = t.lower()
+    words = low.split()
+    first = words[0].strip("'\"") if words else ""
+
+    # 1. Reject questions — the system verifies claims, not questions
+    if t.endswith("?") or first in QUESTION_WORDS:
+        return ('This looks like a **question**. Please enter a *statement* '
+                '(a claim) about COVID-19 instead — for example: '
+                '"Vaccines reduce the risk of severe COVID-19."')
+
+    # 2. Reject input that is not about COVID-19
+    if not any(kw in low for kw in COVID_KEYWORDS):
+        return ('This does not look like a **COVID-19 claim**. Please enter a '
+                'statement related to COVID-19 — e.g. the coronavirus, '
+                'vaccines, treatments, masks, or the pandemic.')
+
+    return None
+
+
 if go and claim.strip():
-    if not meta:
+    problem = validate_claim(claim)
+    if problem:
+        st.warning(problem)
+    elif not meta:
         st.error("Cannot run — index not built. Run `python build_index.py` first.")
     else:
         vc = load_verifier()
